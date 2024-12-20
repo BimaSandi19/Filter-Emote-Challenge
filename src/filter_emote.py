@@ -7,7 +7,7 @@ import mediapipe as mp
 import random
 import time
 import threading
-from utils import distance, calculate_gradient, draw_text_with_background
+from utils import distance, calculate_gradient, draw_text_with_background, display_final_score
 from emoji import load_emoji_images, overlay_emoji
 
 class EmoteChallenge:
@@ -175,6 +175,10 @@ class EmoteChallenge:
         cv2.destroyAllWindows()
         print(f"Permainan Selesai! Skor Akhir: {self.score}")
         print("Emoji yang berhasil ditiru:", self.successful_emojis)
+    
+        # Setelah game selesai, tampilkan skor akhir
+        final_frame = cv2.imread('assets/bg2.jpg')
+        display_final_score(final_frame, self.score)
 
 if __name__ == "__main__":
     game = EmoteChallenge()

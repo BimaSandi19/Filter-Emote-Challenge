@@ -58,3 +58,25 @@ def draw_text_with_background(frame, texts, position, font, scale, text_color, b
         text_width, text_height, baseline = text_sizes[i]
         cv2.putText(frame, text, (x, y_offset + text_height), font, scale, text_color, thickness)
         y_offset += text_height + baseline
+
+def display_final_score(frame, score):
+    """
+    Menampilkan skor akhir pada frame.
+
+    Parameters:
+    frame (ndarray): Frame gambar.
+    score (int): Skor akhir yang diperoleh pengguna.
+    """
+    text = f"Final Score: {score}"
+    font = cv2.FONT_HERSHEY_DUPLEX
+    scale = 1
+    color = (0, 0, 0)  # Warna hijau
+    thickness = 3
+    text_size, _ = cv2.getTextSize(text, font, scale, thickness)
+    text_x = (frame.shape[1] - text_size[0]) // 2
+    text_y = (frame.shape[0] + text_size[1]) // 2
+
+    cv2.putText(frame, text, (text_x, text_y), font, scale, color, thickness)
+    cv2.imshow('Final Score', frame)
+    cv2.waitKey(10000)  # Menampilkan selama 5 detik
+    cv2.destroyAllWindows()
