@@ -10,7 +10,7 @@
 
 ## Deskripsi Proyek
 
-Proyek ini bekerja dengan menggunakan python, OpenCV, dan mediapipe. Filter ini akan menampilkan emoji secara random dan akan ditiru oleh pengguna. Filter ini mampu melacak ekspresi wajah pengguna dan membandingkan dengan emoji pada layar apakah sesuai atau tidak. Tiap emoji yang sesuai akan mendapatkan poin 100, terdapat timer selama 60 detik untuk meniru emoji yang ada di layar.
+Proyek ini bekerja dengan menggunakan python, OpenCV, dan mediapipe. Filter ini akan menampilkan emoji secara random dan akan ditiru oleh pengguna. Filter ini mampu melacak ekspresi wajah pengguna dan membandingkan dengan emoji pada layar apakah sesuai atau tidak. Tiap emoji yang sesuai akan mendapatkan poin 100, terdapat timer selama 30 detik untuk meniru emoji yang ada di layar.
 
 ## Instruksi Instalasi
 
