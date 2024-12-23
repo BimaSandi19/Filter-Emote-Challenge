@@ -27,7 +27,10 @@ class EmoteChallenge:
             "emoji2": "emoji2.png",
             "emoji3": "emoji3.png",
             "emoji4": "emoji4.png",
-            "emoji5": "emoji5.png"
+            "emoji5": "emoji5.png",
+            "emoji6": "emoji6.png",
+            "emoji7": "emoji7.png"
+            
         }
         self.current_emoji = None
         self.emoji_images = load_emoji_images(self.emojis)
@@ -47,12 +50,18 @@ class EmoteChallenge:
         left_eye_bottom = landmarks[145]
         right_eye_top = landmarks[386]
         right_eye_bottom = landmarks[374]
+        left_eyebrow_inner = landmarks[55]
+        left_eyebrow_outer = landmarks[65]
+        right_eyebrow_inner = landmarks[285]
+        right_eyebrow_outer = landmarks[295]
 
         # Menghitung jarak yang diperlukan
         lip_width = distance(left_lip_corner, right_lip_corner)
         lip_height = distance(upper_lip, lower_lip)
         left_eye_height = distance(left_eye_top, left_eye_bottom)
         right_eye_height = distance(right_eye_top, right_eye_bottom)
+        left_eyebrow_height = distance(left_eyebrow_inner, left_eyebrow_outer)
+        right_eyebrow_height = distance(right_eyebrow_inner, right_eyebrow_outer)
 
         # Gradien bibir untuk mendeteksi lengkungan
         left_gradient = calculate_gradient(left_lip_corner, upper_lip)
@@ -61,16 +70,20 @@ class EmoteChallenge:
         # Debug print untuk membantu memahami nilai yang dihitung
         print(f"lip_width: {lip_width}, lip_height: {lip_height}, left_eye_height: {left_eye_height}, right_eye_height: {right_eye_height}")
         print(f"left_gradient: {left_gradient}, right_gradient: {right_gradient}")
+        print(f"left_eyebrow_height: {left_eyebrow_height}, right_eyebrow_height: {right_eyebrow_height}")
 
         # Thresholds untuk mendeteksi ekspresi
         thresholds = {
             "mouth_open": 0.03,
             "eye_closed": 0.02,
             "eyebrow_raise": 0.03,
-            "smile_width": 0.12,  # Menurunkan threshold untuk lebar senyum
-            "smile_height": 0.025,  # Menurunkan threshold untuk tinggi senyum
-            "lip_corner_down": -0.08,  # Menurunkan threshold untuk lengkungan bibir ke bawah
-            "lip_corner_up": 0.2  # Menambahkan threshold untuk lengkungan bibir ke atas
+            "smile_width": 0.12,  # Threshold untuk lebar senyum
+            "smile_height": 0.025,  # Threshold untuk tinggi senyum
+            "lip_corner_down": -0.08,  # Threshold untuk lengkungan bibir ke bawah (lebih sensitif)
+            "lip_corner_up": 0.2,  # Threshold untuk lengkungan bibir ke atas
+            "kiss_lip_width": 0.05,  # Threshold untuk lebar bibir saat cium
+            "monkey_smile_width": 0.10,  # Threshold untuk lebar senyum monyet (lebih rendah dari senyum lebar)
+            "monkey_smile_height": 0.02  # Threshold untuk tinggi senyum monyet
         }
 
         # Deteksi ekspresi berdasarkan threshold
@@ -91,6 +104,12 @@ class EmoteChallenge:
             right_gradient > thresholds["lip_corner_down"] and right_gradient < thresholds["lip_corner_up"]):
             print("Detected expression: emoji3 (ekspresi netral)")
             return "emoji3"  # Emoji ekspresi netral
+        elif (left_eye_height < thresholds["eye_closed"] or right_eye_height < thresholds["eye_closed"]):
+            print("Detected expression: emoji6 (cium)")
+            return "emoji6"  # Emoji cium dengan mata mengedip
+        elif lip_width > thresholds["monkey_smile_width"] and lip_height > thresholds["monkey_smile_height"]:
+            print("Detected expression: emoji7 (muka monyet senyum)")
+            return "emoji7"  # Emoji muka monyet senyum
 
         print("No expression detected")
         return None  # Tidak ada ekspresi yang terdeteksi
